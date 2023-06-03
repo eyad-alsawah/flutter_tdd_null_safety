@@ -36,8 +36,8 @@ void main() {
         .thenAnswer((_) async => Right(tNumberTriviaEntity));
 
     // act
-    final result =
-        await getConcreteNumberTriviaUseCase.execute(number: tNumber);
+    // dart has callable classes this way we don't have to use usecase.execute
+    final result = await getConcreteNumberTriviaUseCase(number: tNumber);
 
     // assert
     expect(result, equals(Right(tNumberTriviaEntity)));
