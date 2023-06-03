@@ -14,3 +14,8 @@ class Params extends Equatable {
   @override
   List<Object?> get props => [number];
 }
+
+class NoParams extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
