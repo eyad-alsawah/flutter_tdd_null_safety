@@ -2,6 +2,7 @@ import "package:dartz/dartz.dart";
 import "package:mockito/mockito.dart";
 import 'package:mockito/annotations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import "package:tdd/core/usecases/usecase.dart";
 import "package:tdd/features/number_trivia/domain/entities/number_trivia_entity.dart";
 
 import "package:tdd/features/number_trivia/domain/repositories/number_trivia_repository.dart";
@@ -37,7 +38,8 @@ void main() {
 
     // act
     // dart has callable classes this way we don't have to use usecase.execute
-    final result = await getConcreteNumberTriviaUseCase(number: tNumber);
+    final result =
+        await getConcreteNumberTriviaUseCase(params: Params(number: tNumber));
 
     // assert
     expect(result, equals(Right(tNumberTriviaEntity)));
