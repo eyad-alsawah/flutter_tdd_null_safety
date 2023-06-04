@@ -17,7 +17,7 @@ class NumberTriviaLocalDataSourceImplementation
 
   NumberTriviaLocalDataSourceImplementation({required this.sharedPreferences});
   @override
-  Future<void> cacheNumberTrivia(NumberTriviaModel triviaToCache) {
+  Future<NumberTriviaModel> getLastNumberTrivia() {
     final jsonString = sharedPreferences.getString(CACHED_NUMBER_TRIVIA);
     if (jsonString != null) {
       return Future.value(
@@ -29,7 +29,8 @@ class NumberTriviaLocalDataSourceImplementation
   }
 
   @override
-  Future<NumberTriviaModel> getLastNumberTrivia() {
-    throw UnimplementedError();
+  Future<void> cacheNumberTrivia(NumberTriviaModel triviaToCache) async {
+    await sharedPreferences.setString(
+        CACHED_NUMBER_TRIVIA, json.encode(triviaToCache.toJson()));
   }
 }
