@@ -72,4 +72,41 @@ void main() {
           () => call(tNumber), throwsA(const TypeMatcher<ServerException>()));
     });
   });
+
+  group('getRandom Number trivia', () {
+    final tNumberTriviaModel =
+        NumberTriviaModel.fromJson(json.decode(getFixture('trivia_int.json')));
+    test('''should perform a GET request on a URL with number 
+        being the endpoint and with application/json header''', () async {
+      // arrange
+      setUpMockHttpClientSuccess();
+      // act
+      remoteDataSourceImplementation.getRandomNumberTrivia();
+      // assert
+      verify(mockHttpClient.get(Uri.parse('http://numbersapi.com/random'),
+          headers: {'Content-Type': 'application/json,'}));
+    });
+
+    test('should return NumberTriviaModel when the response code is 200',
+        () async {
+      // arrange
+      setUpMockHttpClientSuccess();
+      // act
+      final result =
+          await remoteDataSourceImplementation.getRandomNumberTrivia();
+
+      // assert
+      expect(result, equals(tNumberTriviaModel));
+    });
+
+    test('should throw a server exception when the response code is not 200',
+        () async {
+      // arrange
+      setUpMockHttpClientFailure();
+      // act
+      final call = remoteDataSourceImplementation.getRandomNumberTrivia;
+      // assert
+      expect(() => call(), throwsA(const TypeMatcher<ServerException>()));
+    });
+  });
 }
