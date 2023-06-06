@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tdd/core/errors/failures.dart';
 import 'package:tdd/core/usecases/usecase.dart';
@@ -31,19 +32,21 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
           inputConverter.stringToUnsignedInteger(event.numberString);
       // accepts two higher order functions
 
-      inputEither.fold((failure) async* {
+      inputEither.fold((failure) async {
         emit(const ErrorNumberTriviaState(
             message: INVALID_INPUT_FAILURE_MESSAGE));
       }, (integer) async {
         emit(LoadingNumberTriviaState());
         final failureOrTrivia = await getConcreteNumberTriviaUseCase(
             params: Params(number: integer));
+        // yield* is a delegate to another yield
         emit(failureOrTrivia.fold(
             (failure) =>
                 ErrorNumberTriviaState(message: _mapFailureToMessage(failure)),
             (trivia) => LoadedNumberTriviaState(numberTriviaEntity: trivia)));
       });
     });
+    // ignore: void_checks
     on<GetRandomTriviaForRandomNumber>((event, emit) async {
       emit(LoadingNumberTriviaState());
       final failureOrTrivia =
@@ -54,6 +57,10 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
           (trivia) => LoadedNumberTriviaState(numberTriviaEntity: trivia)));
     });
   }
+
+  Stream<NumberTriviaState> _eitherFailureOrLoadedState(
+      Emitter<NumberTriviaState> emit,
+      Either<Failure, NumberTriviaEntity> failureOrTrivia) async* {}
 }
 
 String _mapFailureToMessage(Failure failure) {

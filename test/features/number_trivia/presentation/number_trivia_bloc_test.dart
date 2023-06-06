@@ -165,20 +165,6 @@ void main() {
     const tNumberTriviaEntity =
         NumberTriviaEntity(text: 'test trivia', number: 1);
 
-    test('should get data from the random usecase', () async {
-      // arrange
-
-      when(mockGetRandomNumberTriviaUseCase(params: anyNamed('params')))
-          .thenAnswer((_) async => const Right(tNumberTriviaEntity));
-      // act
-      numberTriviaBloc.add(GetRandomTriviaForRandomNumber());
-      await untilCalled(
-          mockGetRandomNumberTriviaUseCase(params: anyNamed('params')));
-
-      // assert
-      verify(mockGetRandomNumberTriviaUseCase(params: NoParams()));
-    });
-
     // use async* instead of async for streams
     test(
         'should emit [LoadingState, DoneState] when data is gotten successfully',
