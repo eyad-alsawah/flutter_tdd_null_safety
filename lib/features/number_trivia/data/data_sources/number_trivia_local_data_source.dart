@@ -22,7 +22,7 @@ class NumberTriviaLocalDataSourceImplementation
     if (jsonString != null) {
       return Future.value(
           // ignore: void_checks
-          NumberTriviaModel.fromJson(json.decode(jsonString ?? '')));
+          NumberTriviaModel.fromJson(json.decode(jsonString)));
     } else {
       throw CacheException();
     }
