@@ -17,14 +17,10 @@ workflows:
     scripts:
       - name: Install dependencies
         script: flutter pub get
-
       - name: Run tests
         script: flutter test
-
       - name: Build Android APK
         script: flutter build apk --release
-      - name: create ios platform
-        script: flutter create --platform ios
       - name: Update CocoaPods
         script: gem install cocoapods -v 1.11.0  
       - name: Build iOS IPA
