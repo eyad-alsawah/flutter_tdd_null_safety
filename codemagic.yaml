@@ -9,8 +9,8 @@ workflows:
       - name: Install dependencies
         script: flutter pub get
 
-      # - name: Run tests
-      #   script: flutter test
+      - name: Run tests
+        script: flutter test
 
       - name: Build Android APK
         script: flutter build apk
@@ -26,7 +26,8 @@ workflows:
       email:
         recipients:
           - alieid19961996@gmail.com
+          - eyad.nasca@gmail.com
         notify:
           success: true 
-          failure: true 
+          failure: false 
     
