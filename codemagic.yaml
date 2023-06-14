@@ -2,7 +2,6 @@ workflows:
   flutter_build:
     name: Flutter Build
     environment:
-      cocoapods: 1.10.2
       flutter: stable
       xcode: latest
     triggering:
