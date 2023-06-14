@@ -4,11 +4,7 @@ workflows:
     environment:
       flutter: stable
       xcode: latest
-    trigger:
-      events:
-        - push:
-            branches:
-              - master
+
 
     scripts:
       - name: Install dependencies
