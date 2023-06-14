@@ -26,7 +26,7 @@ workflows:
       - name: Update CocoaPods
         script: gem install cocoapods -v 1.11.0
       - name: Build iOS IPA
-        script: flutter build ios --release --no-codesign
+        script: flutter build ios --no-codesign
 
     artifacts:
       - build/app/outputs/apk/release/app-release.apk
