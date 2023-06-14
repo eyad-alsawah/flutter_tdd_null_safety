@@ -28,7 +28,7 @@ workflows:
 
     artifacts:
       - build/app/outputs/apk/release/app-release.apk
-      - build/ios/archive/Runner.xcarchive/Products/Applications/Runner.ipa
+      - Runner.zip
 
     publishing:
       email:
