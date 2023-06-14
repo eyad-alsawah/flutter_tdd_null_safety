@@ -29,5 +29,5 @@ workflows:
           - eyad.nasca@gmail.com
         notify:
           success: true 
-          failure: false 
+          failure: true 
     
