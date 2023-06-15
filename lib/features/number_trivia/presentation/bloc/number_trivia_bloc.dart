@@ -27,7 +27,7 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
       required this.getRandomNumberTriviaUseCase,
       required this.inputConverter})
       : super(EmptyNumberTriviaState()) {
-    on<GetTriviaForConcreteNumber>((event, emit) {
+    on<GetTriviaForConcreteNumber>((event, emit) async {
       final inputEither =
           inputConverter.stringToUnsignedInteger(event.numberString);
       // accepts two higher order functions
@@ -37,13 +37,15 @@ class NumberTriviaBloc extends Bloc<NumberTriviaEvent, NumberTriviaState> {
             message: INVALID_INPUT_FAILURE_MESSAGE));
       }, (integer) async {
         emit(LoadingNumberTriviaState());
-        final failureOrTrivia = await getConcreteNumberTriviaUseCase(
-            params: Params(number: integer));
+        await getConcreteNumberTriviaUseCase(params: Params(number: integer))
+            .then((failureOrTrivia) {
+          emit(failureOrTrivia.fold(
+              (failure) => ErrorNumberTriviaState(
+                  message: _mapFailureToMessage(failure)),
+              (trivia) => LoadedNumberTriviaState(numberTriviaEntity: trivia)));
+        });
+
         // yield* is a delegate to another yield
-        emit(failureOrTrivia.fold(
-            (failure) =>
-                ErrorNumberTriviaState(message: _mapFailureToMessage(failure)),
-            (trivia) => LoadedNumberTriviaState(numberTriviaEntity: trivia)));
       });
     });
     // ignore: void_checks
