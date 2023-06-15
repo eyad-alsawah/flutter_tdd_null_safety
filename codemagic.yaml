@@ -1,0 +1,42 @@
+workflows:
+  flutter_build:
+    name: Flutter Build
+    environment:
+      flutter: stable
+      xcode: latest
+    triggering:
+      events:
+        - push
+        - tag
+        - pull_request
+      branch_patterns:
+        - pattern: 'master'
+          include: true
+          source: true
+
+    scripts:
+      - name: Install dependencies
+        script: flutter pub get
+      - name: Run tests
+        script: flutter test
+      - name: Build Android APK
+        script: flutter build apk --release
+      # - name: Update CocoaPods
+      #   script: gem install cocoapods -v 1.11.0  
+      - name: Build iOS IPA
+        script: flutter build ios --no-codesign
+
+    artifacts:
+      - build/app/outputs/apk/release/app-release.apk
+      - Runner.zip
+
+    publishing:
+      email:
+        recipients:
+          - alieid19961996@gmail.com
+          - eyad.nasca@gmail.com
+        notify:
+          success: true 
+          failure: true 
+      
+    
